@@ -1,0 +1,55 @@
+st.video(r"C:\Users\ladia\Downloads\WhatsApp Video 2023-07-23 at 7.21.46 PM.mp4")
+
+# Feedback option in the sidebar
+feedback = st.sidebar.text_area("Please provide your feedback:")
+
+# If feedback is provided, show a thank you message
+if feedback:
+    st.sidebar.write("Thank you for your feedback!")
+
+
+    Expanders can also be used to reduce visual clutter and hide text that may only be relevant to users looking for additional details.
+
+https://cheat-sheet.streamlit.app/?ref=blog.streamlit.io
+
+
+st.sidebar.code('''
+# Import convention
+>>> import streamlit as st
+''') display copy option at top
+
+
+st.image(logo_url, width=100)
+st.title("Streamlit Dashboard Demo")
+
+
+https://www.youtube.com/redirect?event=video_description&redir_token=QUFFLUhqbXYzWjhlYVJNel9ocDlSNEVUU0R4RjByM1VpQXxBQ3Jtc0tsSHdHX2tOd1Vablc4NHBFMVZmeEpyN1lpcTRMaUVxeHY2d041TU8xX3AzU0swNHlsV2FiZmpZT3JvRkxKMW9pazcxb3YydzhycUZoeTlGR25WbEJVOHlNODBfS3J0cGtWSElJQXZCOVY1ekJpSWpJTQ&q=https%3A%2F%2Ficons.getbootstrap.com%2F&v=hEPoto5xp3k
+icons
+
+
+https://www.youtube.com/watch?v=hEPoto5xp3k
+
+page navigation
+
+
+https://lottiefiles.com/
+
+https://www.youtube.com/watch?v=TXSOitGoINE
+To add animations
+
+ALTER DATABASE testing SET READ_ONLY;
+
+
+
+
+
+
+
+
+
+
+
+errors
+
+TypeError: Parameters to Protocol[...] must all be type variables or parameter specification variables.
+once admin creds given this error came

@@ -1,0 +1,46 @@
+Whats New!
+
+version 1.0
+
+- supported to local mssql express
+- replied to current questions
+
+version 1.3
+
+- supported to AWS RDS MSSQL
+
+verson 1.4
+
+- login page introduced
+- secured password storing
+- forgot credentials process added
+- animations added
+
+version 1.8
+ 
+- supported to get data from user via excel
+- choosing sheet functionality added
+
+version 2.0
+
+- displaying preview of data ( excel )
+- loading to DB
+
+version 2.2
+
+- social media accounts redirection added
+- feedback option added
+
+version 2.4
+
+- admin page added
+- storing conversation history
+
+version 2.6
+
+- latency reduced while querying
+- data existed in tables is displaying by choosing table name in connected DB
+
+version 2.8
+
+-testing DB added
