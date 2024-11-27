@@ -17,6 +17,7 @@ if "dialog_open" not in st.session_state:
 # Function to render the dialog box
 def popup():
     try:
+        st.toast("New to this! Please watch demo (available on left sidebar)")
         st.session_state.result=lg.login_func()
     except Exception as e:
         if'multiple elements with the same' in str(e):
