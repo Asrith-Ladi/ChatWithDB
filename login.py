@@ -99,6 +99,7 @@ def login_func():
                 st.error("Invalid username or password, Please choose Signup or forgot credentials from options")
 
     elif option == "Signup":
+        st.toast("New to this! Please watch demo (available on left sidebar)")
         st.subheader("Signup")
         new_username = st.text_input("New Username")
         new_password = st.text_input("New Password", type="password")
