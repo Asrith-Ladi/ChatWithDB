@@ -42,8 +42,8 @@ def login_func():
     # Define the Users table
     users = Table('Users', metadata,
                 Column('id', Integer, primary_key=True),
-                Column('username', String, unique=True, nullable=False),
-                Column('password', String, nullable=False))
+                Column('username', String(255), unique=True, nullable=False),
+                Column('password', String(255), nullable=False))
 
     # Create table if it doesn't exist
     metadata.create_all(engine)

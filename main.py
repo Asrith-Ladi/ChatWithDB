@@ -2,11 +2,28 @@ import streamlit as st
 from sqlconnection import main1
 import show_table as sht
 import login as lg
+import init_db
 
 st.set_page_config(
         page_title="Chat with Database",
         page_icon=r"Database.png",
         initial_sidebar_state="expanded")
+
+if "db_initialized" not in st.session_state:
+    with st.spinner("Initializing databases and tables..."):
+        host = st.secrets["MSSQL"]["host"]
+        user = st.secrets["MSSQL"]["user"]
+        password = st.secrets["MSSQL"]["password"]
+        dbs_to_create = [
+            st.secrets["MSSQL"]["database"],
+            st.secrets["MSSQL"]["db_excel"],
+            st.secrets["MSSQL"]["db_login"]
+        ]
+        if init_db.init_databases_and_tables(host, user, password, dbs_to_create):
+            st.session_state.db_initialized = True
+        else:
+            st.error("Database initialization failed. Please check your credentials and try again.")
+            st.stop()
 
 st.session_state.result=False
 
