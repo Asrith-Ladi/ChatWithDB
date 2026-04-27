@@ -10,4 +10,5 @@ streamlit-lottie
 streamlit_option_menu
 st_social_media_links
 openpyxl
-
+pytest
+pytest-mock
