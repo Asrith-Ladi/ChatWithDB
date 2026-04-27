@@ -12,3 +12,4 @@ st_social_media_links
 openpyxl
 pytest
 pytest-mock
+boto3

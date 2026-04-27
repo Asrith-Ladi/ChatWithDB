@@ -35,18 +35,45 @@ def login_func():
     load_dotenv(dotenv_path=r".\.gitignore\.env")
     # print(8)
     # print(os.getenv("MSSQL_HOST"),os.getenv("MSSQL_DB_LOGIN"),os.getenv("MSSQL_USER"),os.getenv("MSSQL_PASSWORD"))
-    # Database connection
-    engine = dc.mssql_connection(st.secrets["MSSQL"]["host"],st.secrets["MSSQL"]["db_login"],st.secrets["MSSQL"]["user"],st.secrets["MSSQL"]["password"])
-    metadata = MetaData()
+    import admin_panel
+    db_available = admin_panel.is_db_available()
+    engine = None
+    users = None
+    
+    if db_available:
+        if not st.session_state.get("db_auto_initialized", False):
+            import init_db
+            with st.spinner("Database is online! Verifying/initializing tables automatically..."):
+                host = st.secrets["MSSQL"]["host"]
+                user = st.secrets["MSSQL"]["user"]
+                password = st.secrets["MSSQL"]["password"]
+                dbs_to_create = [
+                    st.secrets["MSSQL"]["database"],
+                    st.secrets["MSSQL"]["db_excel"],
+                    st.secrets["MSSQL"]["db_login"]
+                ]
+                if init_db.init_databases_and_tables(host, user, password, dbs_to_create):
+                    st.session_state.db_auto_initialized = True
 
-    # Define the Users table
-    users = Table('Users', metadata,
-                Column('id', Integer, primary_key=True),
-                Column('username', String(255), unique=True, nullable=False),
-                Column('password', String(255), nullable=False))
+        try:
+            # Database connection
+            engine = dc.mssql_connection(st.secrets["MSSQL"]["host"],st.secrets["MSSQL"]["db_login"],st.secrets["MSSQL"]["user"],st.secrets["MSSQL"]["password"])
+            metadata = MetaData()
 
-    # Create table if it doesn't exist
-    metadata.create_all(engine)
+            # Define the Users table
+            users = Table('Users', metadata,
+                        Column('id', Integer, primary_key=True),
+                        Column('username', String(255), unique=True, nullable=False),
+                        Column('password', String(255), nullable=False))
+
+            # Create table if it doesn't exist
+            metadata.create_all(engine)
+        except Exception as e:
+            if 'Cannot open database' in str(e):
+                st.error("The 'login_db' database is missing! Automatic initialization failed. Please check credentials or run setup from Admin panel.")
+                db_available = False
+            else:
+                raise e
 
     # Function to hash passwords
     def hash_password(password):
@@ -82,6 +109,8 @@ def login_func():
     # Streamlit UI
     
     st.title("Let’s connect! Share your details to chat.")
+    if not db_available:
+        st.warning("⚠️ Database is currently offline. Please use the Admin Panel in the sidebar to start it before logging in.")
 
     # Choose between login and signup
     option = st.radio("Choose an option", ["Login", "Signup","Forgot Credentials"],horizontal=True,key='radio_2')
@@ -90,7 +119,7 @@ def login_func():
         st.subheader("Login")
         username = st.text_input("Username")
         password = st.text_input("Password", type="password")
-        if st.button("Login"):
+        if st.button("Login", disabled=not db_available):
             if check_user(username, password):
                 st.balloons()
                 st.success("Login successful! Please hit Login button again")
@@ -112,7 +141,7 @@ def login_func():
         if new_password and confirm_password and new_password != confirm_password:
             st.error("Passwords do not match.")
 
-        if st.button("Signup"):
+        if st.button("Signup", disabled=not db_available):
             if len(new_password) >= 8 and new_password == confirm_password:
                 if add_user(new_username, new_password):
                     st.success("Signup successful! You can now log in.")
@@ -127,7 +156,7 @@ def login_func():
         new_password = st.text_input("Enter new password", type="password")
         confirm_password = st.text_input("Confirm new password", type="password")
         
-        if st.button("Reset Password"):
+        if st.button("Reset Password", disabled=not db_available):
             if new_password == confirm_password:
                 if reset_password(username, new_password):
                     st.success("Password reset successful! You can now log in with your new password.")

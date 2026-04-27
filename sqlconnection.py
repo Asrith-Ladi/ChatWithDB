@@ -13,6 +13,7 @@ import font
 import show_table
 import excel_page
 import db_connections as dc
+import admin_panel
 from option_navigation import streamlit_menu
 from typing import Union, List
 from pydantic import BaseModel,validator
@@ -206,8 +207,11 @@ def main1():
                     db = dc.rds_mssql_database(st.session_state.host, st.session_state.database, st.session_state.user, st.session_state.password)
                     st.session_state.db = db
                     #print("db",st.session_state.db)
-                    #st.session_state.connect_clicked = False
                     st.toast('Connected! Now test me', icon='😍')
+
+    elif selected == "Admin":
+        admin_panel.render_admin_panel()
+        return
 
     # Display conversation
     for message in st.session_state.chat_history:
